@@ -1,0 +1,15 @@
+node_modules/
+dist/
+release/
+.test-work/
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Local validation records may contain personal paths and skill metadata.
+docs/validation*.json
+docs/competitor-review-2026-09-15.md
+docs/screenshots/
+tests/capture-real.mjs
