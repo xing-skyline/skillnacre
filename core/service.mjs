@@ -695,7 +695,9 @@ export class SkillService extends WorkspaceFeatures {
         } catch (e) {
           if (["EPERM", "EACCES"].includes(e.code))
             throw new Error(
-              "无法创建真实软链接。请开启 Windows 开发者模式并确认系统提示后重试。",
+              process.platform === "win32"
+                ? "无法创建真实软链接。请开启 Windows 开发者模式并确认系统提示后重试。"
+                : "无法创建软链接，请确认源目录可读取、目标目录可写入，并检查磁盘访问权限。",
             );
           throw e;
         }
@@ -950,7 +952,7 @@ export class SkillService extends WorkspaceFeatures {
         await fs.rm(target, { recursive: true, force: true });
       throw new Error(
         e.code === "ENOENT"
-          ? "未找到 Git，请安装 Git for Windows 后重试"
+          ? "未找到 Git，请安装适合当前系统的 Git，并确保启动应用时可以找到 git 命令"
           : `读取 GitHub 失败：${e.message}`,
       );
     }

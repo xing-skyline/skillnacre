@@ -129,9 +129,9 @@ else {
         title: "SkillNacre · 技能管理",
         autoHideMenuBar: true,
         show: false,
-        icon: path.join(__dirname, "../build/icon.ico"),
-        titleBarStyle: "hidden",
-        titleBarOverlay: {
+        icon: path.join(__dirname, process.platform === "win32" ? "../build/icon.ico" : "../build/icon.png"),
+        titleBarStyle: process.platform === "darwin" ? "default" : "hidden",
+        titleBarOverlay: process.platform === "darwin" ? false : {
           color: "#f7f8fb",
           symbolColor: "#555970",
           height: 42,

@@ -7,7 +7,7 @@ import { SkillService, defaults } from "../core/service.mjs";
 import { treeDiff } from "../core/compare.mjs";
 
 async function fixture(t) {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "skillnacre-test-"));
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "skillnacre-test-")));
   t.after(() => fs.rm(root, { recursive: true, force: true }));
   const config = defaults(root, {});
   config.cloud = path.join(root, "cloud");
@@ -199,7 +199,7 @@ test("interrupted journal recovery preserves newer data and exports uncertain ba
       dest,
       backup,
       phase: "prepared",
-      parentReal: config.library,
+      parentReal: await fs.realpath(config.library),
     }),
   );
   await fs.writeFile(

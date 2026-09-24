@@ -22,7 +22,8 @@
     "test": "node --test tests/*.test.mjs",
     "test:ui": "node tests/desktop-smoke.mjs",
     "pack": "npm run notices && npm run build && electron-builder --win dir",
-    "dist": "npm run notices && npm run build && electron-builder --win nsis portable"
+    "dist": "npm run notices && npm run build && electron-builder --win nsis portable",
+    "pack:mac": "npm run notices && npm run build && electron-builder --mac dir --arm64 -c.electronDist=node_modules/electron/dist -c.mac.identity=- -c.mac.hardenedRuntime=false"
   },
   "build": {
     "appId": "local.skillnacre.desktop",
@@ -30,16 +31,6 @@
     "directories": {
       "output": "release"
     },
-    "extraFiles": [
-      {
-        "from": "LICENSE",
-        "to": "LICENSE.skillnacre.txt"
-      },
-      {
-        "from": "THIRD_PARTY_NOTICES.txt",
-        "to": "THIRD_PARTY_NOTICES.txt"
-      }
-    ],
     "files": [
       "dist/**/*",
       "electron/**/*",
@@ -49,6 +40,10 @@
       "package.json"
     ],
     "win": {
+      "extraFiles": [
+        { "from": "LICENSE", "to": "LICENSE.skillnacre.txt" },
+        { "from": "THIRD_PARTY_NOTICES.txt", "to": "THIRD_PARTY_NOTICES.txt" }
+      ],
       "target": [
         "nsis",
         "portable"
@@ -65,6 +60,17 @@
     },
     "portable": {
       "artifactName": "SkillNacre-Portable-${version}.${ext}"
+    },
+    "mac": {
+      "extraResources": [
+        { "from": "LICENSE", "to": "LICENSE.skillnacre.txt" },
+        { "from": "THIRD_PARTY_NOTICES.txt", "to": "THIRD_PARTY_NOTICES.txt" }
+      ],
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns"
     }
   },
   "dependencies": {

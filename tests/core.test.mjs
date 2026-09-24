@@ -6,7 +6,7 @@ import path from "node:path";
 import { SkillService, defaults } from "../core/service.mjs";
 
 async function fixture(t) {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "skilldock-test-"));
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), "skilldock-test-")));
   t.after(() => fs.rm(root, { recursive: true, force: true }));
   const config = defaults(root, {});
   config.cloud = path.join(root, "cloud");
